@@ -1,0 +1,7 @@
+needCalibRegistry: true
+camera: "../camera"
+
+raw:
+  python:      "lsst.afw.image.DecoratedImageU"
+  persistable: "DecoratedImageU"
+  template:    "SCI/%(dateObs)s%(filter)s/Sci_%(frameId)04d.fts"
