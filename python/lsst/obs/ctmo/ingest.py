@@ -38,25 +38,20 @@ class CtmoCameraParseTask(ParseTask):
     """
 
     def translateDate(self, md):
-        """Take date in FITS header in format yyyymmdd,
-        and convert to yyyy-mm-dd.
-
-        This isn't strictly necessary, but it's a good example of what a
-        translate script can be used for."""
+        """Take date in FITS header in format yyyy-mm-ddThh:mm:ss,
+        and convert to yyyy-mm-dd."""
 
         date = md.get("DATE-OBS")
-        date = [date[0:4], date[4:6], date[6:]]
-        date = '-'.join(date)
-        t = Time(date, format='iso', out_subfmt='date').iso
+        t = Time(date[:10], format='iso', out_subfmt='date').iso
         return t
      
     def translateVisit(self, md):
         "Convert string 'visit' from FITS header into integer"
-        return int(md.get("RUN")) 
+        return 1
                     
     def translateCcd(self, md):
         "Convert string 'ccd' from FITS header into integer"
-        return int(md.get("DETECTOR"))
+        return 1
 
     def translateExpTime(self, md):
         "Convert string 'expTime' from FITS header into float"
