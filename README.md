@@ -15,7 +15,7 @@ To build and run a Docker container with an image of LSST Software Stack with `o
 
 Prepare to run it in [detached mode](https://pipelines.lsst.io/install/docker.html).
 
-    docker run -itd --name ctmo ctmo/lsstpipe:latest
+    % docker run -itd --name ctmo ctmo/lsstpipe:latest
 
 This will create a container from ctmo image in detached mode.
 
