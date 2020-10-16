@@ -18,12 +18,12 @@ def datetime2mjd(date_time):
         mm = MO
         yy = YY
 
-    dd = DD + (HH/24.0 + MI/24.0/60.0 + SS/24.0/3600.0)
+    dd = DD + (HH / 24.0 + MI / 24.0 / 60.0 + SS / 24.0 / 3600.0)
 
-    A = int(365.25*yy)
-    B = int(yy/400.0)
-    C = int(yy/100.0)
-    D = int(30.59*(mm-2))
+    A = int(365.25 * yy)
+    B = int(yy / 400.0)
+    C = int(yy / 100.0)
+    D = int(30.59 * (mm - 2))
 
     mjd = A + B - C + D + dd - 678912
 
@@ -34,7 +34,7 @@ class CtmoCameraParseTask(ParseTask):
     """[From https://github.com/lsst/obs_lsst/blob/f0c4ae506e8e0a85789aebdd970d7e704c9c6e24/
     python/lsst/obs/lsst/ingest.py#L54]:
     All translator methods receive the header metadata [here via "md"] and
-    should return the appropriate value, or None if the value cannot be determined. 
+    should return the appropriate value, or None if the value cannot be determined.
     """
 
     def translateDate(self, md):
@@ -42,17 +42,17 @@ class CtmoCameraParseTask(ParseTask):
         and convert to yyyy-mm-dd."""
 
         date = md.get("DATE-OBS")
-        t = Time(date[:10], format='iso', out_subfmt='date').iso
+        t = Time(date[:10], format="iso", out_subfmt="date").iso
         return t
-     
+
     def translateVisit(self, md):
         "Convert string 'visit' from FITS header into integer"
         return 1
-                    
+
     def translateCcd(self, md):
         "Convert string 'ccd' from FITS header into integer"
         return 1
 
     def translateExpTime(self, md):
         "Convert string 'expTime' from FITS header into float"
-        return float(md.get("EXPTIME"))  
+        return float(md.get("EXPTIME"))

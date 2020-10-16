@@ -3,14 +3,14 @@ from lsst.obs.ctmo.ingest import CTMOCameraParseTask
 config.parse.retarget(CTMOCameraParseTask)
 
 config.parse.translation = {
-    "dataType": "IMAGETYP", # checked
-    "expTime": "EXPTIME",   # checked
+    "dataType": "IMAGETYP",  # checked
+    "expTime": "EXPTIME",  # checked
     "frameId": "RUN-ID",
-    "filter": "FILTER",     # checked
-    "field": "OBJECT",      # checked
+    "filter": "FILTER",  # checked
+    "field": "OBJECT",  # checked
     "dateObs": "DATE-OBS",  # checked
-    "taiObs": "DATE-OBS",   # checked
-    "ccd": "INSTRUME",      # checked
+    "taiObs": "DATE-OBS",  # checked
+    "ccd": "INSTRUME",  # checked
     "visit": "VISIT",
     "ccdTemp": "CCD-TEMP",  # checked
 }
@@ -35,7 +35,7 @@ config.register.columns = {
 }
 
 config.parse.defaults = {
-    "filter": "Clear"
+    "filter": "Clear",
     "ccd": "1",
     "visit": "1",
     "frameId": "1",
