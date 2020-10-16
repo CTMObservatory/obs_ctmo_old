@@ -1,6 +1,6 @@
-from lsst.obs.ctmo.ingest import CTMOCameraParseTask
+from lsst.obs.ctmo.ingest import CtmoCameraParseTask
 
-config.parse.retarget(CTMOCameraParseTask)
+config.parse.retarget(CtmoCameraParseTask)
 
 config.parse.translation = {
     "dataType": "IMAGETYP",  # checked
