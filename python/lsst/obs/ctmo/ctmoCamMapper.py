@@ -1,4 +1,5 @@
 from lsst.obs.base import CameraMapper
+from lsst.daf.persistence import Policy
 
 __all__ = ["CtmoCamMapper"]
 
