@@ -20,6 +20,7 @@ config.parse.translators = {
     "taiObs": "translateDate",
     "visit": "translateVisit",
     "ccd": "translateCcd",
+    "expTime": "translateExpTime",
 }
 
 config.register.columns = {
