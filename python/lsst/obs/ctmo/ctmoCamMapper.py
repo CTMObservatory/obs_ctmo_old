@@ -52,14 +52,12 @@ class CtmoCamMapper(CameraMapper):
             policy, os.path.dirname(policyFile), **kwargs
         )
 
-        ###Defining your filter set###
-        # Create a python dict of filters:
+        # Define your filter set
+        # Create a dict of filters:
         self.filters = {}
 
         # Define your set of filters; you can have as many filters as you like...
-        afwImageUtils.defineFilter(
-            name="Clear", lambdaEff=535.5, alias=["Clear"]
-        )
+        afwImageUtils.defineFilter(name="Clear", lambdaEff=535.5, alias=["Clear"])
 
         # ...add them to your filter dict...
         self.filters["Clear"] = afwImage.Filter("Clear").getCanonicalName()
@@ -81,14 +79,13 @@ class CtmoCamMapper(CameraMapper):
         return visit + ccd
 
     def bypass_ccdExposureId(self, datasetType, pythonType, location, dataId):
-        """You need to tell the stack that it needs to refer to the above _computeCcdExposureId function.
+        """You need to tell the stack that it needs to refer to the above
+        _computeCcdExposureId function.
         processCcd.py will fail with an AttributeError without this.
         """
         return self._computeCcdExposureId(dataId)
 
-    def bypass_ccdExposureId_bits(
-        self, datasetType, pythonType, location, dataId
-    ):
+    def bypass_ccdExposureId_bits(self, datasetType, pythonType, location, dataId):
         """You need to tell the stack how many bits to use for the ExposureId.
         Here I say that the ccd ID takes up to 6 bits (2**6=64),
         and I can have up to 16,777,216 (=2**24) visits in my survey.
@@ -99,7 +96,8 @@ class CtmoCamMapper(CameraMapper):
     def _extractDetectorName(self, dataId):
         """
         Every detector needs a name.
-        Here, I simply use the ccd ID number extracted from the header and recorded via the ingest process.
+        Here, I simply use the ccd ID number extracted from the header and
+        recorded via the ingest process.
         processCcd.py will fail with a NotImplementedError() without this.
         """
         return int("%(ccd)d" % dataId)
