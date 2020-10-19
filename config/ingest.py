@@ -11,7 +11,7 @@ config.parse.translation = {
     "dateObs": "DATE-OBS",  # checked
     "taiObs": "DATE-OBS",  # checked
     "ccd": "INSTRUME",  # checked
-    "visit": "VISIT",
+    "visit": "RUN-ID",
     "ccdTemp": "CCD-TEMP",  # checked
 }
 
@@ -37,12 +37,11 @@ config.register.columns = {
 
 config.parse.defaults = {
     "filter": "Clear",
-    "ccd": "1",
-    "visit": "1",
-    "frameId": "1",
+    "ccd": "42",
+    "visit": "33",
     "ccdTemp": "0",
 }
 
 config.register.visit = ["visit", "ccd", "filter", "dateObs", "taiObs"]
 
-config.register.unique = ["visit", "ccd"]
+#config.register.unique = ["visit", "ccd"]

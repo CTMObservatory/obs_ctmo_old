@@ -47,7 +47,7 @@ class CtmoCameraParseTask(ParseTask):
 
     def translateVisit(self, md):
         "Convert string 'visit' from FITS header into integer"
-        return 1
+        return int(md.get("RUN-ID"))
 
     def translateCcd(self, md):
         "Convert string 'ccd' from FITS header into integer"
