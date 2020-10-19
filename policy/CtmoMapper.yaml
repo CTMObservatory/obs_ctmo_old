@@ -1,7 +1,134 @@
-needCalibRegistry: true
-camera: "../camera"
+#This Policy file tells the stack where to read and write data to,
+#and the format that that data should take.
+#There are a few things in here which I only have a vague understanding
+#of (mostly regarding levels and tables); the most important
+#things are, however, `template`, `python` and `persistable`, which tell
+#the stack the path to your data, and the format it's stored in.
 
-raw:
-  python:      "lsst.afw.image.DecoratedImageU"
-  persistable: "DecoratedImageU"
-  template:    "SCI/%(dateObs)s%(filter)s/Sci_%(frameId)04d.fts"
+#I've found the most useful information regarding the policy file is in:
+#obs_base/python/lsst/obs/base/mapping.py
+
+#Note that the stack has its own set of default policies contained within:
+#obs_base/policy
+#The information in here overrides these defaults, but if the stack doesn't
+#find the information it needs here, it'll defer to the obs_base defaults.
+#Hence the reason why some policies only contain a couple of lines, with
+#the rest of the information for that policy being picked up from obs_base.
+
+#Within the template strings are variables (e.g., %(filter)s), which the
+#stack obtains from the registry of exposures when the data is ingested. 
+
+#The policy file also controls whether the output data is compressed. For
+#example, 'recipe: lossyBasic' tells the stack to use lossy compression to
+#save data (this *sounds* dangerous, but is actually pretty safe and you
+#should consider using lossy compression if you're going to be storing lots
+#of data. I'm v. impressed with how careful the stack people have been
+#with this).
+###########################################################################
+
+#First, tell the stack that it needs to set up a registry of calibration
+#frames:
+needCalibRegistry: true
+
+#Then tell the stack where to find your camera and defects files:
+camera: ../camera
+# defects: ../defects
+
+#Tell the stack what default level to assume your data is held at
+#(options include "Amp", "Ccd", "SkyTile").
+defaultLevel: Ccd
+
+#Tell the stack where and how to store raw and processed image files
+#(i.e., exposures)
+
+exposures:
+       raw:
+         python: lsst.afw.image.DecoratedImageF
+         persistable: DecoratedImageF
+         template: raw/%(dateObs)s/%(filter)s/%(dataType)s-%(visit)s.fits
+       postISRCCD:
+         template: postISRCCD/%(dateObs)s/%(filter)s/postISRCCD-%(ccd)s-%(visit)s.fits
+         recipe: lossyBasic
+       calexp:
+         template: sci-results/%(dateObs)s/%(filter)s/calexp/calexp-%(ccd)s.fits
+         recipe: lossyBasic
+#     icExp:
+#         columns:
+#               - visit
+#               - ccd
+#          template: sci-results/%(dateObs)s/%(filter)s/icExp/icExp-%(ccd)s.fits
+
+calibrations:
+       bias:
+         python: lsst.afw.image.ImageF
+         persistable: ImageF
+         level: Ccd
+         tables: bias
+         columns:
+               - ccd
+               - taiObs
+         reference: raw_visit
+         refCols:
+               - ccd
+               - filter
+         validRange: true
+         template: BIAS/BIAS_%(ccd)s_%(calibDate)s.fits
+
+       dark:
+         python: lsst.afw.image.ImageF
+         persistable: ImageF
+         level: Ccd
+         tables: dark
+         columns:
+               - ccd
+               - taiObs
+         reference: raw_visit
+         refCols:
+               - ccd
+               - filter
+         validRange: true
+         template: DARK/DARK_%(frameId)03d.fit
+
+       flat:
+         python: lsst.afw.image.ImageF
+         persistable: ImageF
+         level: Ccd
+         tables: flat
+         columns:
+               - ccd
+               - taiObs
+         reference: raw_visit
+         refCols:
+               - ccd
+               - filter
+         validRange: true
+         template: FLAT/%(filter)s/FLAT_%(frameId)03d.fits
+
+datasets:
+       icExpBackground:
+         template: 'sci-results/%(dateObs)s/%(filter)s/icExp/bkgd-icExp-%(ccd)s.fits'
+       calexpBackground:
+         template: 'sci-results/%(dateObs)s/%(filter)s/calexp/bkgd-calexp-%(ccd)s.fits'
+       src:
+         template: 'sci-results/%(dateObs)s/%(filter)s/calexp/bkgd-calexp-%(ccd)s.fits'
+       icSrc:
+         template: 'sci-results/%(dateObs)s/%(filter)s/icSrc/icSrc-%(ccd)s-%(visit)s.fits'
+       srcMatch:
+         template: 'sci-results/%(dateObs)s/%(filter)s/src/SRCMATCH-%(ccd)s-%(visit)s.fits'
+#       singleFrameDriver_metadata:
+#         persistable: PropertySet
+#         python: lsst.daf.base.PropertySet
+#         storage: BoostStorage
+#         tables:
+#              - raw
+#              - raw_visit
+#         template: 'singleFrameDriver_metadata/%(dateObs)s/%(filter)s/calexp-%(ccd)s-%(visit)s.boost'
+#       wcs:
+#         persistable: ExposureF
+#         python: lsst.afw.ExposureF
+#         template: '%(visit)s/calexp/wcs-%(visit)s_%(ccd)s.fits'
+
+#raw:
+#  python:      "lsst.afw.image.DecoratedImageU"
+#  persistable: "DecoratedImageU"
+#  template:    "SCI/%(dateObs)s%(filter)s/Sci_%(frameId)04d.fts"
