@@ -44,4 +44,4 @@ config.parse.defaults = {
 
 config.register.visit = ["visit", "ccd", "filter", "dateObs", "taiObs"]
 
-#config.register.unique = ["visit", "ccd"]
+config.register.unique = ["visit", "ccd"]

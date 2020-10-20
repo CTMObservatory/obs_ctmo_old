@@ -87,7 +87,7 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: DARK/DARK_%(frameId)s.fit
+    template: DARK/DARK_%(frameId)s.fits
 
   flat:
     python: lsst.afw.image.ImageF
