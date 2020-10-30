@@ -37,22 +37,38 @@ class CtmoCameraParseTask(ParseTask):
     should return the appropriate value, or None if the value cannot be determined.
     """
 
-    def translateDate(self, md):
-        """Take date in FITS header in format yyyy-mm-ddThh:mm:ss,
-        and convert to yyyy-mm-dd."""
+    def translate_date(self, md):
+        "Convert date format from yyyy-mm-ddThh:mm:ss to yyyy-mm-dd."
 
         date = md.get("DATE-OBS")
         t = Time(date[:10], format="iso", out_subfmt="date").iso
         return t
 
-    def translateVisit(self, md):
+    def translate_visit(self, md):
         "Convert string 'visit' from FITS header into integer"
         return int(md.get("RUN-ID"))
 
-    def translateCcd(self, md):
+    def translate_ccd(self, md):
         "Convert string 'ccd' from FITS header into integer"
+        # We only have 1 ccd
         return 1
 
-    def translateExpTime(self, md):
+    def translate_exptime(self, md):
         "Convert string 'expTime' from FITS header into float"
         return float(md.get("EXPTIME"))
+
+
+class CtmoCamCalibsParseTask(ParseTask):
+
+    def translate_detector(self, md):
+        return "PLI"
+
+    def translate_filter(self, md):
+        if "i" in md["FILTER"].replace("SDSS", ""):
+            return "i"
+        return md["FILTER"]
+    
+    def translate_calibDate(self, md):
+        date = md.get("DATE-OBS")
+        t = Time(date[:10], format="iso", out_subfmt="date").iso
+        return t

@@ -6,17 +6,17 @@ from lsst.geom import degrees
 from lsst.afw.coord import Observatory
 from lsst.obs.base import MakeRawVisitInfo
 import os
+import logging
 
 __all__ = ["CtmoCamMapper"]
 
 
 class MakeCtmoRawVisitInfo(MakeRawVisitInfo):
-    """Make a VisitInfo from the FITS header of an Necam image"""
+    "Make a VisitInfo from the FITS header of a CTMO image"
 
-    observatory = Observatory(
-        -97.568956 * degrees, 25.995789 * degrees, 12
-    )  # long, lat, elev
-
+    # longitude, latitude, elevation
+    observatory = Observatory(-97.568956 * degrees, 25.995789 * degrees, 12)
+    
     def setArgDict(self, md, argDict):
         """Set an argument dict for makeVisitInfo and pop associated metadata
         @param[in,out] md metadata, as an lsst.daf.base.PropertyList or PropertySet
@@ -33,7 +33,6 @@ class MakeCtmoRawVisitInfo(MakeRawVisitInfo):
         """
         argDict["exposureTime"] = self.popFloat(md, "EXPTIME")
         argDict["observatory"] = self.observatory
-        pass
 
 
 class CtmoCamMapper(CameraMapper):

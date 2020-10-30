@@ -72,7 +72,7 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: BIAS/BIAS_%(ccd)s_%(calibDate)s.fits
+    template: CALIB/BIAS/BIAS_%(ccd)s_%(calibDate)s.fits
 
   dark:
     python: lsst.afw.image.ImageF
@@ -87,7 +87,7 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: DARK/DARK_%(frameId)s.fits
+    template: CALIB/DARK/DARK_%(frameId)s.fits
 
   flat:
     python: lsst.afw.image.ImageF
@@ -102,7 +102,7 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: FLAT/%(filter)s/FLAT_%(frameId)s.fits
+    template: CALIB/FLAT/%(filter)s/FLAT_%(frameId)s.fits
 
 datasets:
   icExpBackground:

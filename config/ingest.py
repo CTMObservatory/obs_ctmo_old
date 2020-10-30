@@ -16,11 +16,11 @@ config.parse.translation = {
 }
 
 config.parse.translators = {
-    "dateObs": "translateDate",
-    "taiObs": "translateDate",
-    "visit": "translateVisit",
-    "ccd": "translateCcd",
-    "expTime": "translateExpTime",
+    "dateObs": "translate_date",
+    "taiObs": "translate_date",
+    "visit": "translate_visit",
+    "ccd": "translate_ccd",
+    "expTime": "translate_exptime",
 }
 
 config.register.columns = {

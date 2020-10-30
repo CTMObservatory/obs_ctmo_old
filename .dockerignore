@@ -1,0 +1,6 @@
+README.md
+Dockerfile
+camera/subaru_hsc_camera_0_00.fits
+camera/buildDetector_hack.py
+camera/buildDetector.py
+camera/1_Build_detectors.ipynb
