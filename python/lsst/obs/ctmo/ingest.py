@@ -41,8 +41,27 @@ class CtmoParseTask(ParseTask):
         "Convert date format from yyyy-mm-ddThh:mm:ss to yyyy-mm-dd."
 
         date = md.get("DATE-OBS")
+        t = Time(date, out_subfmt="date").isot
+        return t
+
+    def translate_taiobs(self, md):
+        "Convert date format from yyyy-mm-ddThh:mm:ss to yyyy-mm-dd."
+
+        date = md.get("DATE-OBS")
         t = Time(date).isot
         return t
+
+    def translate_data_type(self, md):
+        datatype = md.get("IMAGETYP")
+        if "dark" in datatype.lower():
+            return "dark"
+        if "flat" in datatype.lower():
+            return "flat"
+        if "bias" in datatype.lower():
+            return "bias"
+        if "light" in datatype.lower():
+            return "light"
+        return "unknown"
 
     def translate_visit(self, md):
         "Convert string 'visit' from FITS header into integer"

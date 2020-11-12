@@ -13,8 +13,9 @@ config.parse.translation = {
 }
 
 config.parse.translators = {
+    "dataType": "translate_data_type",
     "dateObs": "translate_date",
-    "taiObs": "translate_date",
+    "taiObs": "translate_taiobs",
     "visit": "translate_visit",
     # "mjd": "translate_jd",
     # "survey": "translate_survey",
