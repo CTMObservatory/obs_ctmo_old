@@ -30,7 +30,7 @@ def datetime2mjd(date_time):
     return mjd
 
 
-class CtmoCameraParseTask(ParseTask):
+class CtmoParseTask(ParseTask):
     """[From https://github.com/lsst/obs_lsst/blob/f0c4ae506e8e0a85789aebdd970d7e704c9c6e24/
     python/lsst/obs/lsst/ingest.py#L54]:
     All translator methods receive the header metadata [here via "md"] and
@@ -41,7 +41,7 @@ class CtmoCameraParseTask(ParseTask):
         "Convert date format from yyyy-mm-ddThh:mm:ss to yyyy-mm-dd."
 
         date = md.get("DATE-OBS")
-        t = Time(date[:10], format="iso", out_subfmt="date").iso
+        t = Time(date).isot
         return t
 
     def translate_visit(self, md):
@@ -58,10 +58,12 @@ class CtmoCameraParseTask(ParseTask):
         return float(md.get("EXPTIME"))
 
 
-class CtmoCamCalibsParseTask(ParseTask):
+class CtmoCalibsParseTask(ParseTask):
 
-    def translate_detector(self, md):
-        return "PLI"
+    def translate_ccd(self, md):
+        "Convert string 'ccd' from FITS header into integer"
+        # We only have 1 ccd
+        return 1
 
     def translate_filter(self, md):
         if "i" in md["FILTER"].replace("SDSS", ""):
@@ -70,5 +72,5 @@ class CtmoCamCalibsParseTask(ParseTask):
     
     def translate_calibDate(self, md):
         date = md.get("DATE-OBS")
-        t = Time(date[:10], format="iso", out_subfmt="date").iso
+        t = Time(date).isot
         return t

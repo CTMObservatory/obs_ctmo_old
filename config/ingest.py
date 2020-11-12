@@ -1,30 +1,32 @@
-from lsst.obs.ctmo.ingest import CtmoCameraParseTask
+from lsst.obs.ctmo.ingest import CtmoParseTask
 
-config.parse.retarget(CtmoCameraParseTask)
+config.parse.retarget(CtmoParseTask)
 
 config.parse.translation = {
     "dataType": "IMAGETYP",
     "expTime": "EXPTIME",
-    "frameId": "RUN-ID",
     "filter": "FILTER",
     "field": "OBJECT",
-    "dateObs": "DATE-OBS",
-    "taiObs": "DATE-OBS",
-    "ccd": "INSTRUME",
+    "run": "RUN-ID",
+    "mjd": "JD",
     "visit": "RUN-ID",
-    "ccdTemp": "CCD-TEMP",
 }
 
 config.parse.translators = {
     "dateObs": "translate_date",
     "taiObs": "translate_date",
     "visit": "translate_visit",
+    # "mjd": "translate_jd",
+    # "survey": "translate_survey",
     "ccd": "translate_ccd",
-    "expTime": "translate_exptime",
 }
 
+config.register.visit = ["visit", "run", "ccd", "filter", "dateObs", "taiObs"]
+
+config.register.unique = ["run", "ccd", "filter"]
+
 config.register.columns = {
-    "frameId": "text",
+    "run": "int",
     "visit": "int",
     "ccd": "int",
     "filter": "text",
@@ -32,16 +34,9 @@ config.register.columns = {
     "expTime": "double",
     "dateObs": "text",
     "taiObs": "text",
+    "mjd": "int",
     "field": "text",
+    #"survey": "text",
 }
 
-config.parse.defaults = {
-    "filter": "Clear",
-    "ccd": "42",
-    "visit": "33",
-    "ccdTemp": "0",
-}
-
-config.register.visit = ["visit", "ccd", "filter", "dateObs", "taiObs"]
-
-config.register.unique = ["visit", "ccd"]
+config.parse.defaults = {"ccd": "1"}

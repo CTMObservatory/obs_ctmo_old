@@ -1,40 +1,32 @@
-# This file is part of obs_lsst.
-#
-# Developed for the LSST Data Management System.
-# This product includes software developed by the LSST Project
-# (http://www.lsst.org).
-# See the COPYRIGHT file at the top-level directory of this distribution
-# for details of code ownership.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the LSST License Statement and
-# the GNU General Public License along with this program.  If not,
-# see <http://www.lsstcorp.org/LegalNotices/>.
-
-from lsst.obs.ctmo.ingest import CtmoCamCalibsParseTask
+#Import the library to parse the calibrations:
+from lsst.obs.ctmo.ingest import CtmoCalibsParseTask
 config.parse.retarget(CtmoCamCalibsParseTask)
 
-config.register.columns = {'filter': 'text',
-                           'calibDate': 'text',
-                           'validStart': 'text',
-                           'validEnd': 'text',
-                           }
+#These are the columns that appear in calibregistry.sqlite3:
+config.register.columns = {
+    'ccd': 'int',
+    "filter": "text",
+    "calibDate": "text",
+    "validStart": "text",
+    "validEnd": "text",
+}
 
-config.register.detector = ['filter', 'detector']
+config.register.detector = ["filter", "ccd"]
 
-config.parse.translators = {'detector': 'translate_detector',
+
+#If the values in the header aren't in the format you wish, you
+#can use a translator
+config.parse.translators = {'ccd': 'translate_ccd',
                             'filter': 'translate_filter',
-                            'calibDate': 'translate_calibDate',
-                            }
+                            'calibDate': 'translate_calibDate'}
 
-config.register.unique = ['filter', 'detector', 'calibDate']
-config.register.visit = ['calibDate', 'filter']
+#The combination of these columns must identify the entry uniquely:
+config.register.unique = ['filter', 'ccd', 'calibDate']
+
+#I'm not sure what 'visit' is used for, but there must be at least
+#one common element between unique and visit.
+config.register.visit = ["calibDate", "filter"]
+
+#The tables contained within the registry:
+# This is not in GOTO
+config.register.tables = ['bias', 'dark', 'flat']

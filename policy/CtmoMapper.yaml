@@ -45,12 +45,12 @@ exposures:
   raw:
     python: lsst.afw.image.DecoratedImageF
     persistable: DecoratedImageF
-    template: raw/%(dateObs)s/%(filter)s/%(dataType)s_%(frameId)s.fits
+    template: raw/%(dateObs)s/%(filter)s/%(dataType)s_%(run)s.fits
   postISRCCD:
-    template: postISRCCD/%(dateObs)s/%(filter)s/postISRCCD_%(frameId)s.fits
+    template: postISRCCD/%(dateObs)s/%(filter)s/postISRCCD_%(run)s.fits
     recipe: lossyBasic
   calexp:
-    template: sci-results/%(dateObs)s/%(filter)s/calexp/calexp_%(frameId)s.fits
+    template: sci-results/%(dateObs)s/%(filter)s/calexp/calexp_%(run)s.fits
     recipe: lossyBasic
 #  icExp:
 #    columns:
@@ -77,6 +77,7 @@ calibrations:
   dark:
     python: lsst.afw.image.ImageF
     persistable: ImageF
+    storage: FitsStorage
     level: Ccd
     tables: dark
     columns:
@@ -87,7 +88,10 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: CALIB/DARK/DARK_%(frameId)s.fits
+    validStartName: validStart
+    validEndName: validEnd
+    template: CALIB/DARK/DARK_%(run)s_%(calibDate)s.fits
+    # template: DARK/NONE/DARK_%(ccd)s_%(calibDate)s.fits
 
   flat:
     python: lsst.afw.image.ImageF
@@ -102,7 +106,7 @@ calibrations:
       - ccd
       - filter
     validRange: true
-    template: CALIB/FLAT/%(filter)s/FLAT_%(frameId)s.fits
+    template: CALIB/FLAT/%(filter)s/FLAT_%(run)s.fits
 
 datasets:
   icExpBackground:
