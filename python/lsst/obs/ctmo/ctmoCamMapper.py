@@ -70,12 +70,10 @@ class CtmoCamMapper(CameraMapper):
         processCcd.py will fail with a NotImplementedError() without this."""
 
         pathId = self._transformId(dataId)
-        visit = pathId["visit"]
-        ccd = pathId["ccd"]
-        visit = int(visit)
-        ccd = int(ccd)
+        run = int(pathId["run"])
+        ccd = int(pathId["ccd"])
 
-        return visit + ccd
+        return run + ccd
 
     def bypass_ccdExposureId(self, datasetType, pythonType, location, dataId):
         """You need to tell the stack that it needs to refer to the above

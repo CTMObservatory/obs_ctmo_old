@@ -82,7 +82,6 @@ calibrations:
     tables: dark
     columns:
       - ccd
-      - taiObs
     reference: raw_visit
     refCols:
       - ccd
